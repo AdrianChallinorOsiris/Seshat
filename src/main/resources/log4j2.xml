@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+	<Appenders>
+		<Console name="Console">
+			<!--- PatternLayout pattern="%d{HH:mm:ss.SSS} %-5p %l{36} - %msg%n" / -->
+			<PatternLayout pattern="%d{HH:mm:ss.SSS} %-5p - %msg%n" />
+		</Console>
+	</Appenders>
+	<Loggers>
+		<Root level="INFO" additivity="false">
+			<AppenderRef ref="Console" />
+		</Root>
+		<logger name="osiris.ContainerFile" level="INFO" additivity="false">
+			<AppenderRef ref="Console" />
+		</logger>
+		<logger name="osiris.action.Encryptor" level="INFO" additivity="false">
+			<AppenderRef ref="Console" />
+		</logger>
+		<logger name="osiris.action" level="INFO" additivity="false">
+			<AppenderRef ref="Console" />
+		</logger>
+		<logger name="osiris.database" level="INFO" additivity="false">
+			<AppenderRef ref="Console" />
+		</logger>
+		<logger name="osiris.database" level="INFO" additivity="false">
+			<AppenderRef ref="Console" />
+		</logger>
+		<logger name="osiris.stp" level="INFO" additivity="false">
+			<AppenderRef ref="Console" />
+		</logger>
+		<logger name="osiris.stp.Parser" level="INFO" additivity="false">
+			<AppenderRef ref="Console" />
+		</logger>
+	</Loggers>
+</Configuration>

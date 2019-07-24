@@ -1,0 +1,3 @@
+#!/bin/bash 
+cp /code/Seshat/target/Seshat-0.7-jar-with-dependencies.jar /usr/local/lib/Seshat.jar
+
