@@ -48,6 +48,7 @@ public class Seshat {
 
 		// Set up the parser
 		Parser p = new Parser(SeshatGrammar.generate(), cb);
+		p.check();
 		configuration.setP(p);
 		log.debug("Grammar successfully compiled");
 
@@ -81,6 +82,7 @@ public class Seshat {
 		}
 
 		if (sb.length() > 0) {
+			sb.append(" exit ");
 			String cmdline = sb.toString();
 			log.debug("Command Line: {}", cmdline);
 			Scanner sc =new Scanner(cmdline);

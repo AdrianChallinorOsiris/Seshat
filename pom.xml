@@ -5,7 +5,7 @@
 	<groupId>Osiris</groupId>
 	<artifactId>Seshat</artifactId>
 
-	<version>0.7</version>
+	<version>0.7.2</version>
 
 	<name>Seshat</name>
 	<description>Incremental Archive and Backup to S3</description>
@@ -74,9 +74,11 @@
 		</dependency>
 	</dependencies>
 
-	<build>
-		<plugins>
+	<packaging>jar</packaging>
 
+	<build>
+		<finalName>Seshat</finalName>
+		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-assembly-plugin</artifactId>

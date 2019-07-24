@@ -157,7 +157,7 @@ public class CB extends Callback {
 	public void grammarPrune(Token arg1) { config.getP().prune(); }
 	public void help(Token arg1) { config.getP().help(); }
 	public void memstats(Token arg1) { Util.memstats(); }
-	public void password(Token arg1) { config.setPassword(arg1.sval); }
+//	public void password(Token arg1) { config.setPassword(arg1.sval); }
 
 
 }
