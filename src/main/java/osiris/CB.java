@@ -71,6 +71,7 @@ public class CB extends Callback {
 	}
 
 	public void automatic(Token arg) {
+		config.setWaitOnLock(true);
 		if (!config.lockDB()) 
 			return;
 		

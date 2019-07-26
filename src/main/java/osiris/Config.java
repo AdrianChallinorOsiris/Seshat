@@ -30,7 +30,7 @@ import osiris.stp.Parser;
 @Log4j2
 public class Config {
 	private boolean isFollowLinks = false;
-	private boolean isIncludeHidden = false;
+	private boolean isIncludeHidden = true;
 	private boolean isInit = false;
 	private ArrayList<String> includes = new  ArrayList<String>() ;
 	private ArrayList<String> excludes  = new  ArrayList<String>();
@@ -75,8 +75,11 @@ public class Config {
 	 */
 	public Config() { 
 		excludes.add("Dropbox");
+		excludes.add("Download");
 		excludes.add("VirtualBox VMs");
 		excludes.add(".*\\.?(i|I)(s|S)(o|O)");	
+		excludes.add(".*\\.?bin");	
+		excludes.add(".*\\.?deb");	
 	}
 	
 	
@@ -117,7 +120,7 @@ public class Config {
 		init(false);
 		if (!(DBlocked = s3.lockDB())) {
 			if (!waitOnLock) {
-				log.error("Database not locked - backup is not possible");
+				log.error("Database not locked - Operation is not possible");
 				return false;
 			} else {
 				int wait = 1;

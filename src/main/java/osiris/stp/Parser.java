@@ -6,7 +6,9 @@ package osiris.stp;
 import lombok.Data;
 import lombok.extern.log4j.Log4j2;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -57,26 +59,29 @@ public class Parser {
 	/*
 	 * Ways of parsing ....
 	 */
-	public Result parse(Scanner  console) {	
+	public Result parse(Scanner  sc) {	
 		currentState = grammar.getInitialState();
 		log.debug("parse - Parser Starting State=" + currentState);
-
-
-		String line = ""; 
-		Scanner sc = new Scanner(line);
+		BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
 		
 		while (true) {
 			
 			/*
 			 * Check we have some more input. If we don't return and get more 
 			 */
-			if (!sc.hasNext()) {
+			while (!sc.hasNext()) {
 				String prompt = currentState.getName() + "> ";
 				prompt = StringUtils.lowerCase(prompt);
 				prompt = StringUtils.capitalize(prompt);
 				System.out.print(prompt);
-				line = console.nextLine();
-				sc = new Scanner(line);
+				String line;
+				try {
+					line = bufferedReader.readLine();
+					sc = new Scanner(line);
+				} catch (IOException e) {
+					log.fatal("Error reading input", e);
+					System.exit(1);
+				}
 			}
 			
 			// Get a token. 

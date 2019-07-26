@@ -82,6 +82,8 @@ public class S3 {
 	}
 	
 	public boolean lockDB() { 
+		// FIXME Not waiting for locks on db
+		
 		boolean lock = false;
 		
 		String bucket = config.getS3BucketName();

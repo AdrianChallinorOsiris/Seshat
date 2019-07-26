@@ -148,7 +148,7 @@ public class Restore {
 			log.error("Sorry - can't restore bare metal yet");
 		}
 		restoreList = new ArrayList<VersionQuery>();
-		// TODO populate restore list with everything to restore on this system, as at the restore date. 
+		// TODO Baremetal restore 
 		
 		doRestore();
 	}

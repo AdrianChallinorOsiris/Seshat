@@ -92,7 +92,6 @@ public class Finder extends DirectoryWalker<BackupFile> {
 		if (fname.startsWith("~" + File.separator)) {
 			newname = System.getProperty("user.home") + fname.substring(1);
 		}	
-		// TODO - handle Environment variable 
 		return newname;
 	}
 
