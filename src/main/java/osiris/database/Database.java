@@ -57,7 +57,5 @@ public class Database implements Serializable {
 				System.out.println(s);
 			}
 		}
-		
-		
 	}
 }

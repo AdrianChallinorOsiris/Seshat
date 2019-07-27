@@ -94,7 +94,7 @@ public class Seshat {
 		
 		if (rc == Result.SUCCESS) {
 			rc = Result.SUCCESS;
-			Scanner sc = new Scanner(System.in);
+			Scanner sc = new Scanner(" ");
 			rc = p.parse(sc);
 		}
 		

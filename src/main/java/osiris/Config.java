@@ -30,7 +30,7 @@ import osiris.stp.Parser;
 @Log4j2
 public class Config {
 	private boolean isFollowLinks = false;
-	private boolean isIncludeHidden = true;
+	private boolean isIncludeHidden = false;
 	private boolean isInit = false;
 	private ArrayList<String> includes = new  ArrayList<String>() ;
 	private ArrayList<String> excludes  = new  ArrayList<String>();
@@ -48,8 +48,7 @@ public class Config {
 	private int listLimit = 10;
 	private int threadLowerLimit = 100;
 	private String password;
-	
-	
+	private int dbsize; 
 	
 	// Total size of a container must not exceed 40 GB. 
 	public static final long KB = 1024;
@@ -89,7 +88,7 @@ public class Config {
 				log.warn("Configuration already initialized");
 		}
 		else {
-			log.info("Initializing the configuration");
+			log.info("Initializing SESHAT and reading DB from S3");
 			db = new Database();
 			s3 = new S3(this);
 			autoLoadDB();
@@ -170,6 +169,7 @@ public class Config {
 			try {
 				Encryptor enc = new Encryptor();
 				byte[] plain = enc.decryptDB(crypt);
+				dbsize = plain.length;
 				ByteArrayInputStream bais = new ByteArrayInputStream(plain);
 				FSTObjectInput in = new FSTObjectInput(bais);
 				db = (Database) in.readObject();
@@ -208,7 +208,8 @@ public class Config {
 	}
 	
 	
-	public void sizeDB() { 
+	public void sizeDB() {
+		log.info("DB Size = {}", Util.humanReadableByteCount(dbsize, true));
 		db.reportSize();
 	}
 	
