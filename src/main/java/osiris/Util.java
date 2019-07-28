@@ -18,13 +18,16 @@ import lombok.extern.log4j.Log4j2;
  */
 public class Util {
 	public static void memstats() {
-		long GB = 1024l * 1024l * 1024l;
 		int cores = Runtime.getRuntime().availableProcessors();
-		int freemem = (int) (Runtime.getRuntime().freeMemory() / GB);
-		int maxmem = (int) (Runtime.getRuntime().maxMemory() / GB);
-		int totmem = (int) (Runtime.getRuntime().totalMemory() / GB);
+		long freemem = Runtime.getRuntime().freeMemory();
+		long maxmem = Runtime.getRuntime().maxMemory();
+		long totmem = Runtime.getRuntime().totalMemory();
 
-		log.info("Cores: {}; Free Mem: {}GB; Max Mem: {}GB; Tot Mem: {}GB", cores, freemem, maxmem, totmem);
+		log.info("Cores: {}; Free Mem: {}; Max Mem: {}; Tot Mem: {}", cores, 
+			humanReadableByteCount(freemem, false),
+			humanReadableByteCount(maxmem, false),
+			humanReadableByteCount(totmem, false)
+		);
 	}
 
 	public static boolean createDir(String dirname) { 
@@ -56,7 +59,7 @@ public class Util {
 	    int unit = si ? 1000 : 1024;
 	    if (bytes < unit) return bytes + " B";
 	    int exp = (int) (Math.log(bytes) / Math.log(unit));
-	    String pre = (si ? "kMGTPE" : "KMGTPE").charAt(exp-1) + (si ? "" : "i");
-	    return String.format("%.1f %sB", bytes / Math.pow(unit, exp), pre);
+	    String pre = (si ? "kMGTPE" : "KMGTPE").charAt(exp-1) + "B";
+	    return String.format("%.1f %s", bytes / Math.pow(unit, exp), pre);
 	}
 }

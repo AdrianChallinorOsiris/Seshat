@@ -36,6 +36,23 @@ public class SeshatGrammar {
 			.add(new Keyword("MEMSTATS").callback("memstats"))
 			.add(new Keyword("HELP").callback("help"))
 			.add(new Keyword("GRAMMAR").setSuccess(STP.state("GRAMMAR")))
+			.add(new Keyword("LOGGER").setSuccess(STP.state("LOG")))
+			;
+		
+		STP.state("LOG")
+			.add(new Keyword("LIST").callback("loggerList"))
+			.add(new Keyword("SET").setSuccess(STP.state("LOGSET")))
+			;
+		
+		STP.state("LOGSET")
+			.add(new Word().callback("loggerName").setSuccess(STP.state("LOGLEVEL")));
+
+		STP.state("LOGLEVEL")
+			.add(new Keyword("DEBUG").callback("loggerLevel"))
+			.add(new Keyword("TRACE").callback("loggerLevel"))
+			.add(new Keyword("INFO").callback("loggerLevel"))
+			.add(new Keyword("WARN").callback("loggerLevel"))
+			.add(new Keyword("ERROR").callback("loggerLevel"))
 			;
 		
 		STP.state("RESTORE")
@@ -83,6 +100,7 @@ public class SeshatGrammar {
 			.add(new Keyword("WAIT").setSuccess(STP.state("WAIT")))
 			.add(new Keyword("DELAY").setSuccess(STP.state("DELAY")))
 			.add(new Keyword("DRYRUN").setSuccess(STP.state("DRYRUN")))
+			.add(new Keyword("AUTOBACKUP").setSuccess(STP.state("SETAUTO")))
 			;
 	
 
@@ -94,6 +112,10 @@ public class SeshatGrammar {
 		STP.state("MAX1") 
 			.add(new IntNumber().callback("setSize").setSuccess(STP.state("SIZE")))
 			;
+
+		STP.state("SETAUTO")
+			.add(new Keyword("YES").callback("enable"))
+			.add(new Keyword("NO").callback("disable"));
 
 		STP.state("SIZE")
 			.add(new Keyword("MB").callback("setSizeMultiplier"))

@@ -8,11 +8,17 @@ import java.net.UnknownHostException;
 import java.nio.file.attribute.PosixFilePermission;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.time.StopWatch;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.core.LoggerContext;
+import org.apache.logging.log4j.core.config.Configurator;
+import org.apache.logging.log4j.core.config.LoggerConfig;
 import org.nustaq.serialization.FSTConfiguration;
 import org.nustaq.serialization.FSTObjectInput;
 import org.nustaq.serialization.FSTObjectOutput;
@@ -26,12 +32,17 @@ import osiris.database.Database;
 import osiris.database.Host;
 import osiris.stp.Parser;
 
+import java.util.Collections;
+import java.util.List;
+
 @Data
 @Log4j2
 public class Config {
 	private boolean isFollowLinks = false;
 	private boolean isIncludeHidden = false;
 	private boolean isInit = false;
+	private String logger; 
+	
 	private ArrayList<String> includes = new  ArrayList<String>() ;
 	private ArrayList<String> excludes  = new  ArrayList<String>();
 	private ArrayList<BackupFile> candidates = new ArrayList<BackupFile>();
@@ -379,4 +390,47 @@ public class Config {
         }
         return new String(hexChars);
     }
+
+
+	
+    
+    /*
+	 *  Handle dynamic log levels
+	 */
+    
+    public final static String LOGFMT = "%-40s %5s";
+	public void loggerList() {
+		LoggerContext ctx = (LoggerContext) LogManager.getContext(false);
+	    Map<String, LoggerConfig> loggers = ctx.getConfiguration().getLoggers();
+	    
+	    List<String> loggersByKey = new ArrayList<>(loggers.keySet());
+	    Collections.sort(loggersByKey);
+	    		
+	    System.out.println(String.format(LOGFMT, "Logger", "Level"));
+	    System.out.println(String.format(LOGFMT, "==============================","====="));
+	    
+	    System.out.println(String.format(LOGFMT , "root",LogManager.getRootLogger().getLevel()));
+	    
+	    for (Iterator<String> iterator = loggersByKey.iterator(); iterator.hasNext();) {
+	        String key = iterator.next();
+	        if (key.length() > 0) {
+		        LoggerConfig cfg = loggers.get(key);
+		        System.out.println(String.format(LOGFMT , cfg.getName(), cfg.getLevel()));
+	        }
+	    }
+	}
+
+	public void loggerName(String sval) {
+		logger = sval;
+	}
+
+	public void loggerLevel(String sval) {
+		Level level = Level.valueOf(sval.toUpperCase());
+		log.info("Setting log level for {} to {}", logger, level);
+		if (logger.equalsIgnoreCase("root")) 
+			Configurator.setRootLevel(level);
+		else
+			Configurator.setLevel(logger, level);
+	}
+
 }

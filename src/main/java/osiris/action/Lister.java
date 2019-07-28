@@ -99,6 +99,20 @@ public class Lister {
 		}
 	}
 	
+	public void disable(boolean state) { 
+		if (folder == null)  
+			log.warn("No folder selected");
+		else {
+			if (folder instanceof AutoFolder) {
+				AutoFolder af = (AutoFolder)folder;
+				af.setDisabled(state);
+				log.info("Autobackup of {} set to {}.  Remember to save the DB", af.getName(), state);
+			}
+			else
+				log.warn("Can only process top level folders");
+		}
+	}
+	
 	public void listFound() { 
 		if (versionList == null) { 
 			log.warn("No search completed");
@@ -334,23 +348,21 @@ public class Lister {
 
 	public void listAuto() {
 		ArrayList<Host> hosts = config.getDb().getHosts() ;
-		String fmt = "\t%20s \t%30s";
-		System.out.println(String.format(fmt, "HostName", "Folder"));
-		System.out.println(String.format(fmt, "========", "======"));
+		String fmt = "\t%20s \t%30s \t%10s";
+		System.out.println(String.format(fmt, "HostName", "Folder", "Disabled"));
+		System.out.println(String.format(fmt, "========", "======", "========"));
 		if (hosts != null) {
 			for (Host h : hosts) {
 				String hn = h.getName();
-				ArrayList<AutoFolder> folders = host.getFolders();
+				ArrayList<AutoFolder> folders = h.getFolders();
 				if (folders != null) {
-					for (Folder f : folders) {
+					for (AutoFolder f : folders) {
 						String fn = f.getName();
-						System.out.println(String.format(fmt, hn, fn));
+						System.out.println(String.format(fmt, hn, fn, f.isDisabled() ? "Yes":"No"));
 					}
 				}
 			}
-			
 		} 
-		
 	}
 	
 	public void getFilesInFolder( boolean recurse ) { 

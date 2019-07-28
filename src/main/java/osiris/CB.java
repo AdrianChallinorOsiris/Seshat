@@ -82,14 +82,18 @@ public class CB extends Callback {
 		Backup backup = new Backup(config);
 		if (paths != null) {
 			for (AutoFolder bp : paths) {
-				
-				config.setExcludes(bp.getExcludes());
-				config.setIncludes(bp.getIncludes());
-				config.setFollowLinks(bp.isFollowLinks());
-				config.setIncludeHidden(bp.isIncludeHidden());
-				
-				ArrayList<BackupFile> c = finder.scan(bp.getName());
-				backup.backup(c);
+				if (!bp.isDisabled()) {
+					log.info("Autobackup of: {} ", bp.getName());
+					config.setExcludes(bp.getExcludes());
+					config.setIncludes(bp.getIncludes());
+					config.setFollowLinks(bp.isFollowLinks());
+					config.setIncludeHidden(bp.isIncludeHidden());
+					
+					ArrayList<BackupFile> c = finder.scan(bp.getName());
+					backup.backup(c);
+				}
+				else 
+					log.warn("Autobackup of disabled folder {} ignored ");
 			}
 			config.autoSaveDB();
 			config.ProcessDelayed();
@@ -133,7 +137,8 @@ public class CB extends Callback {
 	public void fileContains(Token arg1) { lister.fileContains(arg1.sval); }
 	public void fileRegex(Token arg1) { lister.fileRegex(arg1.sval); }
 	public void selectFileNumber(Token arg1) { lister.selectFileNumber(arg1.ival); }
-	
+	public void disable(Token arg1) { lister.disable(true); }
+	public void enable(Token arg1) { lister.disable(false); }
 	
 	public void addFolder(Token arg1)		{ 
 		lister.getFilesInFolder(false);
@@ -158,7 +163,10 @@ public class CB extends Callback {
 	public void grammarPrune(Token arg1) { config.getP().prune(); }
 	public void help(Token arg1) { config.getP().help(); }
 	public void memstats(Token arg1) { Util.memstats(); }
-//	public void password(Token arg1) { config.setPassword(arg1.sval); }
+
+	public void loggerList(Token arg1) { config.loggerList(); }
+	public void loggerName(Token arg1) { config.loggerName(arg1.sval); }
+	public void loggerLevel(Token arg1) { config.loggerLevel(arg1.sval); }
 
 
 }

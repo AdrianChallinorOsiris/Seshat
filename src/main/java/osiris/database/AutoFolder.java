@@ -11,6 +11,7 @@ public class AutoFolder extends Folder {
 	private static final long serialVersionUID = 1L;
 	private boolean isFollowLinks = false;
 	private boolean isIncludeHidden = false;
+	private boolean disabled = true;
 	private ArrayList<String> includes = new  ArrayList<String>() ;
 	private ArrayList<String> excludes  = new  ArrayList<String>();
 
