@@ -39,6 +39,7 @@ public class CB extends Callback {
 	public void dbSize(Token arg1) {config.sizeDB(); }
 	public void dbLock(Token arg1) {config.lockDB(); }
 	public void dbUnlock(Token arg1) {config.unlockDB(); }
+	public void dbStatus(Token arg1) {config.statusDB(); }
 
 	public void setDryRunYes(Token arg1) { config.setDryRun(true); }
 	public void setDryRunNo(Token arg1) { config.setDryRun(false); }

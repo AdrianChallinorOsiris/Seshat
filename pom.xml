@@ -5,7 +5,7 @@
 	<groupId>Osiris</groupId>
 	<artifactId>Seshat</artifactId>
 
-	<version>0.7.7</version>
+	<version>0.7.8</version>
 
 	<name>Seshat</name>
 	<description>Incremental Archive and Backup to S3</description>

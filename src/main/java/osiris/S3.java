@@ -81,6 +81,13 @@ public class S3 {
 		}
 	}
 	
+	public boolean isLocked() { 
+		String bucket = config.getS3BucketName();
+		String key = config.getS3DBKey() + "_LOCK";
+		boolean locked = s3client.doesObjectExist(bucket, key);
+		return locked;
+	}
+	
 	public boolean lockDB() { 
 		// FIXME Not waiting for locks on db
 		

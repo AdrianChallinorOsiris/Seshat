@@ -433,4 +433,18 @@ public class Config {
 			Configurator.setLevel(logger, level);
 	}
 
+
+	/**
+	 * 
+	 */
+	public void statusDB() {
+		if (s3 == null)
+			s3 = new S3(this);
+		boolean locked = s3.isLocked();
+		if (locked) 
+			log.warn("DB is locked");
+		else 
+			log.info("DB is not locked");
+	}
+
 }

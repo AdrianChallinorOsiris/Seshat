@@ -215,7 +215,8 @@ public class SeshatGrammar {
 			.add(new Keyword("SAVE").callback("dbSave"))
 			.add(new Keyword("SIZE").callback("dbSize"))
 			.add(new Keyword("UNLOCK").callback("dbUnlock"))		
-			.add(new Keyword("LOCK").callback("dbLock"))		
+			.add(new Keyword("LOCK").callback("dbLock"))
+			.add(new Keyword("STATUS").callback("dbStatus"))
 			;
 		
 		STP.state("RESET")
